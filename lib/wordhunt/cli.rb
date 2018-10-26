@@ -35,11 +35,11 @@ class Wordhunt::CLI
 
         print_sentences(Wordhunt::Word.find_by_name(input))
 
-        puts "Do you want to search for another word?"
-
         begin
+        puts "Do you want to search for another word? (enter y/n)"
         response = gets.strip
         end until response == "y" || response == "n" || response == "Y" || response == "N"
+
         
         if response == "y" || response == "Y"
           puts WORD_ARRAY
@@ -55,8 +55,7 @@ class Wordhunt::CLI
         Wordhunt::Word.new(input) if !Wordhunt::Word.find_by_name(input)
 
         word = Wordhunt::Word.find_by_name(input)
-        # binding.pry
-            # since the scrape has already happened, this method searches stored texts rather than re-scraping
+
        if word.sentences == []
             Wordhunt::Book.all.each do |book|
     
@@ -72,7 +71,6 @@ class Wordhunt::CLI
 
         word.count = word.sentences.length
         puts "We found #{word.count} sentence(s) for you to check out: \n"
-        #  iterate here... puts sentence, puts space, puts sentence...
         word.sentences.each do |s|
             puts " "
             puts "#{s}"
