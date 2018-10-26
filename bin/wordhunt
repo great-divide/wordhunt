@@ -2,5 +2,5 @@
 
 require './lib/wordhunt'
 
-Wordhunt::CLI.new.start
+Wordhunt::CLI.new.call
 
