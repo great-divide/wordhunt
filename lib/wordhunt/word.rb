@@ -1,5 +1,5 @@
 class Wordhunt::Word
-	attr_accessor :name, :count, :sentences
+	attr_accessor :name, :sentences
 
 	@@all = []
 

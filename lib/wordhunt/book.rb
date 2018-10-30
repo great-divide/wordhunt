@@ -3,17 +3,18 @@ class Wordhunt::Book
 
 	@@all = []
 
-	def initialize(title, info_url, text_url, fulltext)
-		@title = title
-		@info_url = info_url
-		@text_url = text_url
-		@fulltext = fulltext
+	def initialize(hash)
+
+		hash.each { |k, v| 
+			self.send("#{k}=", v)
+		}
+		
 		@@all << self
 	end
 
 	def self.make_books(hash_array)
 		hash_array.each do |book|
-			Wordhunt::Book.new(book[:title], book[:info_url], book[:text_url], book[:fulltext])
+			Wordhunt::Book.new(book)
 		end
 	end
 

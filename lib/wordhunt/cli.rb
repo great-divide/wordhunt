@@ -36,14 +36,14 @@ class Wordhunt::CLI
 
         begin
         puts "Do you want to search for another word? (enter y/n)"
-        response = gets.strip
-        end until response == "y" || response == "n" || response == "Y" || response == "N"
+        response = gets.strip.downcase
+        end until response == "y" || response == "n"
 
-        if response == "y" || response == "Y"
+        if response == "y"
           puts WORD_ARRAY
           puts "Which word do you want to search for now?"
           menu
-        elsif response == "n" || response == "N"
+        elsif response == "n"
           puts "Ok, have a logophilic day!"
         end  
     end
@@ -66,11 +66,10 @@ class Wordhunt::CLI
   
     def print_sentences(word)
 
-        word.count = word.sentences.length
-        puts "We found #{word.count} sentence(s) for you to check out: \n"
-        word.sentences.each do |s|
+        puts "We found #{word.sentences.length} sentence(s) for you to check out: \n"
+        word.sentences.each.with_index(1) do |s, index|
             puts " "
-            puts "#{s}"
+            puts "#{index}. #{s.strip}"
         end
         puts " "
     end

@@ -6,6 +6,7 @@ class Wordhunt::Scraper
 
 # build hash for each title with a link to more info, compile hashes into array
     	hash_array = []
+# for demo, could limit .each to a range [0..3]
     	doc.css(".item-ia[data-mediatype='texts']").each do |item|
       		hash_array << { 
         		:title => item.css(".item-ttl a").attribute("title").value,
