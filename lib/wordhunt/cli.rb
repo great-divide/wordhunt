@@ -7,15 +7,14 @@ class Wordhunt::CLI
     def call
         puts "Oh my! You're early. Give me a moment to prepare..."
 
-        # SCRAPE THINGS (make books?) 
+        # scrape things, make books
         Wordhunt::Scraper.scrape_titles_and_links("https://archive.org/details/gutenberg") 
 
         start
     end
 
 	def start
-		puts WORD_ARRAY
-    	# begin 
+		puts WORD_ARRAY 
     	puts "Here are some vocabulary words that commonly appear on the GRE. Choose one and we'll find instances of its use in classic literature."
     
     	menu
@@ -40,7 +39,6 @@ class Wordhunt::CLI
         response = gets.strip
         end until response == "y" || response == "n" || response == "Y" || response == "N"
 
-        
         if response == "y" || response == "Y"
           puts WORD_ARRAY
           puts "Which word do you want to search for now?"
@@ -58,7 +56,6 @@ class Wordhunt::CLI
 
        if word.sentences == []
             Wordhunt::Book.all.each do |book|
-    
                 book.fulltext.scan /[^.?!]*(?<=[.?\s!])#{input}(?=[\s.?!])[^.?!]*[.?!]/ do |n|
                     word.sentences << n
                 end

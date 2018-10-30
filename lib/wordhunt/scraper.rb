@@ -11,13 +11,11 @@ class Wordhunt::Scraper
         		:title => item.css(".item-ttl a").attribute("title").value,
         		:info_url => item.css(".item-ttl a").attribute("href").value
       		}
-    	end
-    
+    	end 
 # append full prefix to partial URLs
     	hash_array.each { |h| 
     	  h[:info_url].insert(0, 'http://www.archive.org') 
-    	}  
-    
+    	}     
 # call next scraper method to find url of complete text
    		hash_array.each { |h|
     	  h[:text_url] = self.get_url_of_complete_text(h[:info_url])
@@ -32,13 +30,12 @@ class Wordhunt::Scraper
             doc.gsub!("\n", " ")
             # doc.gsub!("\\", "")
             h[:fulltext] = doc
-        end
-      binding.pry
-# return array of hashes
+        end     
+# make books
     	Wordhunt::Book.make_books(hash_array)
   	end
-
-#  scrape text detail (full text)
+    
+#  scrape text detail (link to full text)
 	def self.get_url_of_complete_text(info_url)
     	doc = Nokogiri::HTML(open(info_url))
   
@@ -55,28 +52,4 @@ class Wordhunt::Scraper
   # returns only first item of array (others are duplicates)
     	array.shift
   	end
-
-# scrape book text...
-    def new_search_for_single_word(hash_array, word)
-        final_hash_array = []
-
-        hash_array.each do |foo|
-            doc = Nokogiri::HTML(open(foo[:text])).text
-            # make it pretty
-            doc.gsub!("\r", " ")
-            doc.gsub!("\n", " ")
-            # doc.gsub!("\\", "")
-            @fulltexts << doc
-        end
-
-        sentence_array = []
-        @fulltexts.each do |text|
-            text.scan /[^.?!]*(?<=[.?\s!])#{word}(?=[\s.?!])[^.?!]*[.?!]/ do |n|
-                sentence_array << n
-            end
-        end
-
-        sentence_array
-    end
-
 end
